@@ -1,0 +1,46 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #111;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.app {
+  width: 350px;
+  padding: 20px;
+  background: #1c1c1c;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.search input {
+  padding: 8px;
+  width: 70%;
+}
+
+.search button {
+  padding: 8px;
+}
+
+.card {
+  margin-top: 20px;
+  background: #222;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+img {
+  width: 150px;
+}
+
+#status {
+  margin-top: 10px;
+  color: orange;
+}
