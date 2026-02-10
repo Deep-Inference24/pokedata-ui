@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minimalist Pokédex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <h1>Minimalist Pokédex</h1>
+
+  <div class="search">
+    <input id="searchInput" placeholder="Enter Pokémon name">
+    <button onclick="searchPokemon()">Search</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div id="card" class="card hidden">
+    <h2 id="name"></h2>
+    <img id="sprite">
+    <p id="types"></p>
+    <div id="stats"></div>
+
+    <button onclick="toggleShiny()">Toggle Shiny ✨</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
