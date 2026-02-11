@@ -3,34 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>Minimalist Pokédex</title>
-
-  <!-- Apple-like font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="container">
-    <h1>Minimalist Pokédex</h1>
+  <div class="main-container">
+    <h1 class="title">Minimalist Pokédex</h1>
 
-    <div class="search-box">
-      <input id="pokemonInput" placeholder="Enter Pokémon name" />
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter Pokémon name">
       <button onclick="searchPokemon()">Search</button>
     </div>
 
-    <div id="card" class="card hidden">
-      <h2 id="pokemonName"></h2>
-      <img id="pokemonImg" />
-
-      <p id="pokemonType"></p>
-
-      <div id="stats"></div>
-
-      <button class="shiny-btn" onclick="toggleShiny()">✨ Toggle Shiny</button>
-    </div>
+    <div id="pokemonContainer"></div>
   </div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
