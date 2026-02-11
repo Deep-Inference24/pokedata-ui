@@ -1,46 +1,121 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #111;
-  color: white;
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa, #e4ebf5);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  transition: background 0.8s ease;
 }
 
-.app {
-  width: 350px;
-  padding: 20px;
-  background: #1c1c1c;
-  border-radius: 12px;
+.container {
+  width: 420px;
+  padding: 40px;
   text-align: center;
 }
 
-.search input {
-  padding: 8px;
-  width: 70%;
+h1 {
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
-.search button {
-  padding: 8px;
+.search-box {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+button {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  background: #111;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .card {
-  margin-top: 20px;
-  background: #222;
-  padding: 15px;
-  border-radius: 10px;
+  margin-top: 35px;
+  padding: 30px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  animation: fadeUp 0.6s ease;
 }
 
 .hidden {
   display: none;
 }
 
-img {
+.card img {
   width: 150px;
+  margin: 20px 0;
 }
 
-#status {
-  margin-top: 10px;
-  color: orange;
+#pokemonType {
+  font-weight: 500;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.stat {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.stat span {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.bar {
+  height: 8px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.bar div {
+  height: 100%;
+  border-radius: 6px;
+  animation: grow 0.8s ease-out;
+}
+
+.shiny-btn {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #ffd700, #ff9f1c);
+  color: black;
+}
+
+@keyframes grow {
+  from { width: 0; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }
