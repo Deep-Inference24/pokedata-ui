@@ -1,72 +1,97 @@
-let isShiny = false;
-let currentPokemon = null;
-
-const typeGradients = {
-  electric: "linear-gradient(135deg, #fff7cc, #ffe066)",
-  fire: "linear-gradient(135deg, #ffe5d0, #ff9f80)",
-  water: "linear-gradient(135deg, #e0f2ff, #90cdf4)",
-  grass: "linear-gradient(135deg, #e6fffa, #9ae6b4)",
-  psychic: "linear-gradient(135deg, #fce7f3, #f9a8d4)",
-  ice: "linear-gradient(135deg, #e0f7ff, #bae6fd)",
-  dark: "linear-gradient(135deg, #e5e7eb, #9ca3af)",
-  fairy: "linear-gradient(135deg, #fff1f2, #fbcfe8)",
-  default: "linear-gradient(135deg, #f5f7fa, #e4ebf5)"
+const typeColors = {
+  fire: ["#ff9a9e", "#ff6a88"],
+  water: ["#89f7fe", "#66a6ff"],
+  grass: ["#a8ff78", "#78ffd6"],
+  electric: ["#fddb92", "#d1fdff"],
+  psychic: ["#ff9a9e", "#fad0c4"],
+  ice: ["#a1c4fd", "#c2e9fb"],
+  dragon: ["#667eea", "#764ba2"],
+  dark: ["#434343", "#000000"],
+  fairy: ["#ffdde1", "#ee9ca7"],
+  normal: ["#d3cce3", "#e9e4f0"]
 };
 
 async function searchPokemon() {
-  const name = document.getElementById("pokemonInput").value.toLowerCase();
-  if (!name) return;
+  const input = document.getElementById("searchInput").value.toLowerCase().trim();
+  const container = document.getElementById("pokemonContainer");
 
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  if (!res.ok) {
-    alert("Pokémon not found");
+  if (!input) {
+    showError("Please enter a Pokémon name.");
     return;
   }
 
-  const data = await res.json();
-  currentPokemon = data;
-  isShiny = false;
-  renderPokemon(data);
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+    displayPokemon(data);
+
+  } catch {
+    showError("Pokémon not found.");
+  }
 }
 
-function renderPokemon(data) {
-  document.getElementById("card").classList.remove("hidden");
-
-  document.getElementById("pokemonName").innerText =
-    `#${data.id} ${data.name.toUpperCase()}`;
-
-  document.getElementById("pokemonImg").src =
-    data.sprites.front_default;
-
+function displayPokemon(data) {
+  const container = document.getElementById("pokemonContainer");
   const type = data.types[0].type.name;
-  document.getElementById("pokemonType").innerText = `Type: ${type}`;
+  const colors = typeColors[type] || ["#e0c3fc", "#ffffff"];
 
-  document.body.style.background =
-    typeGradients[type] || typeGradients.default;
+  document.body.style.background = `
+    linear-gradient(135deg, ${colors[0]}, ${colors[1]})
+  `;
 
-  const statsDiv = document.getElementById("stats");
-  statsDiv.innerHTML = "";
+  container.innerHTML = `
+    <div class="pokemon-card">
+      <h2>#${data.id} ${data.name.toUpperCase()}</h2>
+      <img src="${data.sprites.front_default}" />
+      <p><strong>Type:</strong> ${type}</p>
 
-  data.stats.forEach(stat => {
-    const value = stat.base_stat;
-    statsDiv.innerHTML += `
-      <div class="stat">
-        <span>${stat.stat.name.toUpperCase()}</span>
-        <div class="bar">
-          <div style="width:${Math.min(value,100)}%;
-          background:linear-gradient(90deg,#111,#555)"></div>
+      ${data.stats.map(stat => `
+        <div class="stat">
+          <div class="stat-label">
+            <span>${stat.stat.name.toUpperCase()}</span>
+            <span>${stat.base_stat}</span>
+          </div>
+          <div class="stat-bar">
+            <div class="stat-fill" style="width: ${stat.base_stat / 2}%"></div>
+          </div>
         </div>
-      </div>
-    `;
+      `).join("")}
+
+      <button onclick="toggleShiny(${data.id})">✨ Toggle Shiny</button>
+    </div>
+  `;
+}
+
+async function toggleShiny(id) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  const data = await response.json();
+  const img = document.querySelector(".pokemon-card img");
+
+  if (img.src === data.sprites.front_default) {
+    img.src = data.sprites.front_shiny;
+  } else {
+    img.src = data.sprites.front_default;
+  }
+}
+
+function showError(message) {
+  const container = document.getElementById("pokemonContainer");
+  container.innerHTML = `<div class="error-card">${message}</div>`;
+
+  document.body.style.background = `
+    linear-gradient(
+      135deg,
+      #8ec5fc,
+      #c9d6ff,
+      #e0c3fc,
+      #ffffff
+    )
+  `;
+}
+
+document.getElementById("searchInput")
+  .addEventListener("keypress", function(e) {
+    if (e.key === "Enter") searchPokemon();
   });
-}
-
-function toggleShiny() {
-  if (!currentPokemon) return;
-
-  isShiny = !isShiny;
-  document.getElementById("pokemonImg").src =
-    isShiny
-      ? currentPokemon.sprites.front_shiny
-      : currentPokemon.sprites.front_default;
-}
